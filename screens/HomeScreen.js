@@ -10,61 +10,60 @@ import {
 		Button,
 		Alert,
 		ImageBackground,
+		SectionList,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
+import AddTodoButton from '../components/AddButton';
 
 export default class HomeScreen extends React.Component {
 		static navigationOptions = {
 				header: null,
 		};
-		
-		onPressTest = (() => {
-				Alert.alert(
-						'Quiz time!',
-						'Subject Caty!',
-						[
-								{text: 'Is Caty is the best gf ever?', onPress: () => Alert.alert('YES!')},
-						],
-						{ cancelable: false }
-				)
-		})
 
+		medication_list = [
+				{title: 'Morgning', data: ['pill_1']},
+				{title: 'Mid-Morgning', data: ['pill_1', 'pill_2', 'pill_3']},
+				{title: 'Afternoon', data: ['pill_2', 'pill_3', 'pill_4', 'pill_4']},
+				{title: 'Mid-Afternoon', data: ['pill_1', 'pill_2', 'pill_3']},
+				{title: 'Night', data: ['pill_2', 'pill_3', 'pill_4', 'pill_4']},				
+		];
+
+		
+		
 		render() {
 				return (
-							
-								<ImageBackground source={require('../assets/images/caty.jpg')}
-						style={styles.backgroundImage}>
-								<ScrollView>
-								<Button onPress={this.onPressTest}	title="Learn More" color="#841584"
-						accessibilityLabel="Learn more about this purple button" style={styles.contentContainer}
-								/>								
-								</ScrollView>						
-								</ImageBackground>
-																
+						<View style={styles.container}>
+
+						<SectionList
+						sections={this.medication_list}
+						renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+						renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+						keyExtractor={(item, index) => index}
+						/>												
+						</View>						
 				);
 		}
 
 		_maybeRenderDevelopmentModeWarning() {
 				if (__DEV__) {
 						const learnMoreButton = (
-										<Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-										Learn more
+								<Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+								Learn more
 								</Text>
 						);
 
 						return (
-										<Text style={styles.developmentModeText}>
-										Development mode is enabled, your app will be slower but you can use useful development
+								<Text style={styles.developmentModeText}>
+								Development mode is enabled, your app will be slower but you can use useful development
 								tools. {learnMoreButton}
 								</Text>
 						);
 				} else {
 						return (
-										<Text style={styles.developmentModeText}>
-										You are not in development mode, your app will run at full speed.
-										</Text>
+								<Text style={styles.developmentModeText}>
+								You are not in development mode, your app will run at full speed.
+																																			</Text>
 						);
 				}
 		}
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
         resizeMode: 'cover'
-     },
+    },
 		developmentModeText: {
 				marginBottom: 20,
 				color: 'rgba(0,0,0,0.4)',
@@ -174,5 +173,19 @@ const styles = StyleSheet.create({
 		helpLinkText: {
 				fontSize: 14,
 				color: '#2e78b7',
+		},
+		sectionHeader: {
+				paddingTop: 2,
+				paddingLeft: 10,
+				paddingRight: 10,
+				paddingBottom: 2,
+				fontSize: 14,
+				fontWeight: 'bold',
+				backgroundColor: 'rgba(247,247,247,1.0)',
+		},
+		item: {
+				padding: 10,
+				fontSize: 18,
+				height: 44,
 		},
 });
