@@ -27,16 +27,15 @@ import SvgUri from 'react-native-svg-uri';
 export default class HomeScreen extends React.Component {
 
 		state = { modalVisible: false,
-							deleteModalVisible: false,
-							medication_list: [{time: "Morning", data: ["Test"]},
-																{time: "Mid-Morning", data: []},
-																{time: "Afternoon", data: []},
-																{time: "Mid-Afternoon", data:[]},
-																{time: "Night", data:[]}
-															],
-							time: null,
-							name: null,
-						}
+				  deleteModalVisible: false,
+				  medication_list: [{time: "Morning", data: ["Test"]},
+				  { time: "Mid-Morning", data: []},
+					{time: "Afternoon", data: []},
+					{time: "Mid-Afternoon", data:[]},
+					{time: "Night", data:[]}],
+						time: null,
+						name: null,
+				}
 		
 		static navigationOptions = {
 				header: null,
@@ -63,15 +62,15 @@ export default class HomeScreen extends React.Component {
 				medication_list = this.state.medication_list;		
 				medication_list.forEach((elem, index, arr) => {
 						if(this.state.time == elem.time) {
-								elem.data.push(this.state.name);
-								found = true;
+							elem.data.push(this.state.name);
+							found = true;
 						}
 				});
 				
 				this.setState({modalVisible: false,
-											medication_list: medication_list,
-											name: null,
-											time: null});				
+							   medication_list: medication_list,
+							   name: null,
+							   time: null});				
 				this.render();
 		}
 
@@ -82,14 +81,13 @@ export default class HomeScreen extends React.Component {
 								elem.data.splice(this.state.marked_index, 1);								
 						}
 				});
-				this.setState({modalVisible: false,
-											medication_list: medication_list,
-											name: null,
-											time: null,
-											marked_time: null,
-											marked_index: null,
-											deleteModalVisible: false});
-				
+				this.setState({ modalVisible: false,
+								medication_list: medication_list,
+								name: null,
+								time: null,
+								marked_time: null,
+								marked_index: null,
+								deleteModalVisible: false});
 				this.render();
 		}
 		
