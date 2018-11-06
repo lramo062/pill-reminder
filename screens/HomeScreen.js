@@ -15,11 +15,14 @@ import {
 		TouchableHighlight,
 		TextInput,
 		Picker,
+		ListView,		
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import ActionButton from 'react-native-action-button';
-import { ListItem } from 'react-native-elements'
+import { Icon  } from 'react-native-elements'
+import SvgUri from 'react-native-svg-uri';
+
 
 export default class HomeScreen extends React.Component {
 
@@ -30,7 +33,7 @@ export default class HomeScreen extends React.Component {
 																{time: "Afternoon", data: []},
 																{time: "Mid-Afternoon", data:[]},
 																{time: "Night", data:[]}
-															 ],
+															],
 							time: null,
 							name: null,
 						}
@@ -66,9 +69,9 @@ export default class HomeScreen extends React.Component {
 				});
 				
 				this.setState({modalVisible: false,
-											 medication_list: medication_list,
-											 name: null,
-											 time: null});				
+											medication_list: medication_list,
+											name: null,
+											time: null});				
 				this.render();
 		}
 
@@ -80,232 +83,170 @@ export default class HomeScreen extends React.Component {
 						}
 				});
 				this.setState({modalVisible: false,
-											 medication_list: medication_list,
-											 name: null,
-											 time: null,
-											 marked_time: null,
-											 marked_index: null,
-											 deleteModalVisible: false});
+											medication_list: medication_list,
+											name: null,
+											time: null,
+											marked_time: null,
+											marked_index: null,
+											deleteModalVisible: false});
 				
 				this.render();
 		}
 		
-		_onHideUnderlay() {
-				this.setState({ pressStatus: false });
-		}
-		_onShowUnderlay() {
-				this.setState({ pressStatus: true });
-		}
-
 		mark_item = () => {
+				console.log("PRESSED");
 		}
 		
 		render() {
 				return (
-								<View style={styles.container}>
+						<View style={styles.container}>
 
-								<Modal
-						animationType="slide"
-						transparent={false}
-						visible={this.state.modalVisible}
-						onRequestClose={() => {
+
+							<Modal	animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {
 								Alert.alert('Modal has been closed.');
-						}}>
+							}}>
 
 								<View style={styles.contentContainer}>
-								<View style={styles.tabBarInfoText}>
-
-						    <Text> {"enter name:"} </Text>
-								<TextInput
-						onChangeText={(text) => this.setState({name: text})}
-						style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}
-						value={this.state.name}
-								/>
+									<View style={styles.tabBarInfoText}>
+										<Text> {"enter name:"} </Text>
+										<TextInput onChangeText={(text) => this.setState({name: text})}
+											style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}
+											value={this.state.name}
+										/>
 
 
-								<Text> {"select time of day:"} </Text>
-								<Picker
-						selectedValue={this.state.time}
-						style={{ height: 100, width: 200, marginLeft: 40, }}
-						onValueChange={(itemValue, itemIndex) => this.setState({time: itemValue})}>
-								<Picker.Item label="-- set me --" value="-- set me --" />
-								<Picker.Item label="Morning" value="Morning" />
-								<Picker.Item label="Mid-Morning" value="Mid-Morning" />
-								<Picker.Item label="Afternoon" value="Afternoon" />
-								<Picker.Item label="Mid-Afternoon" value="Mid-Afternoon" />
-								<Picker.Item label="Night" value="Night" />
-								</Picker>
+										<Text> {"select time of day:"} </Text>
+										<Picker selectedValue={this.state.time} style={{ height: 100, width: 200, marginLeft: 40, }}
+											onValueChange={(itemValue, itemIndex) => this.setState({time: itemValue})}>
+											<Picker.Item label="-- set me --" value="-- set me --" />
+											<Picker.Item label="Morning" value="Morning" />
+											<Picker.Item label="Mid-Morning" value="Mid-Morning" />
+											<Picker.Item label="Afternoon" value="Afternoon" />
+											<Picker.Item label="Mid-Afternoon" value="Mid-Afternoon" />
+											<Picker.Item label="Night" value="Night" />
+										</Picker>
 
 
-								<View style={styles.rowContainer}>						
-								<TouchableHighlight
-						style={{						
-                height: 40,
-                width:100,
-                borderRadius:10,
-                backgroundColor: "#111100",
-                marginLeft :0,
-                marginRight:40,
-                marginTop :140
-             }}
-						underlayColor="white"
-						onPress={this.hide_modal}>
-                <Button
-						onPress={this.hide_modal}
-						title="close"
-						color="white"
-						accessibilityLabel="Learn more about this purple button"
-						/>
-								</TouchableHighlight>
+										<View style={styles.rowContainer}>						
+											<TouchableHighlight style={{						
+												height: 40,
+												width:100,
+												borderRadius:10,
+												backgroundColor: "#111100",
+												marginLeft :0,
+												marginRight:40,
+												marginTop :140
+											}}
+											underlayColor="white"
+											onPress={this.hide_modal}>
+											<Button
+												onPress={this.hide_modal}
+													title="close"
+													color="white"
+													accessibilityLabel="Learn more about this purple button"
+											/>
+											</TouchableHighlight>
 
-								<TouchableHighlight
-						underlayColor="white"
-						style={{
-                height: 40,
-                width:100,
-                borderRadius:10,
-                backgroundColor: "#03A9F4",
-                marginLeft :40,
-                marginRight:0,
-                marginTop :140
-            }}
-						onPress={this.add_medication}>
-                <Button
-						onPress={this.add_medication}
-						title="add"
-						color="white"
-						accessibilityLabel="Learn more about this purple button"
-								/>
-								</TouchableHighlight>
-								
-
-								</View>
-								
-						</View>
+											<TouchableHighlight
+												underlayColor="white"
+												style={{
+												height: 40,
+												width:100,
+												borderRadius:10,
+												backgroundColor: "#03A9F4",
+												marginLeft :40,
+												marginRight:0,
+												marginTop :140
+											}}
+											onPress={this.add_medication}>
+											<Button
+												onPress={this.add_medication}
+												title="add"
+												color="white"
+												accessibilityLabel="Learn more about this purple button"
+											/>
+											</TouchableHighlight>	
+										</View>										
+									</View>
 								</View>																		
-								</Modal>
+							</Modal>
 
 
-								<Modal
-						animationType="slide"
-						transparent={true}
-						visible={this.state.deleteModalVisible}
-						onRequestClose={() => {
-								Alert.alert('Modal has been closed.');
-						}}>
+							<Modal animationType="slide" transparent={true} visible={this.state.deleteModalVisible}
+								onRequestClose={() => {	
+									Alert.alert('Modal has been closed.');
+								}}>
 								<View style={styles.tabBarInfoContainer}>
-								<View style={styles.rowContainer}>
+									<View style={styles.rowContainer}>
 								
-								<TouchableHighlight
-						onPress={this.hide_delete_modal}
-            style ={{						
-                height: 40,
-                width:100,
-                borderRadius:10,
-                backgroundColor: "#111100",
-                marginLeft :0,
-                marginRight:40,
-                marginTop :10
-            }}>
-                <Button
-						color="white"
-						onPress={this.hide_delete_modal}
-            title="cancel"
-            accessibilityLabel="Learn more about this button"
-								/>
+										<TouchableHighlight onPress={this.hide_delete_modal}
+											style ={{						
+											height: 40,
+											width:100,
+											borderRadius:10,
+											backgroundColor: "#111100",
+											marginLeft :0,
+											marginRight:40,
+											marginTop :10
+										}}>
+											<Button color="white" onPress={this.hide_delete_modal} title="cancel"
+												accessibilityLabel="Learn more about this button"
+											/>
 								
-								</TouchableHighlight> 
-	<TouchableHighlight
-						onPress={this.delete_medication}
-            style ={{
-                height: 40,
-                width:100,
-                borderRadius:10,
-                backgroundColor: "red",
-                marginLeft :40,
-                marginRight:0,
-                marginTop :10
-            }}>
-                <Button
-						color="white"
-						onPress={this.delete_medication}
-            title="delete"
-            accessibilityLabel="Learn more about this button"
-								/> 
-								</TouchableHighlight>
-								
-						</View>
-								</View>
-								</Modal>
-								
-
-								<View style={{marginTop: 20}}>
-						{
-								this.state.medication_list.map((elem, i) => (
-												<View style={styles.rowContainer}>
-												<Text style={styles.boldItem}> {elem.time} </Text>
-												<Text style={styles.boldItem}> {"   button should go here"} </Text>
-												</View>
-												
-												<View>
-												elem.data.map((name, i) = > (
-																<Text style={styles.item}> {name} </Text>	
-												))
-																			</View>
+										</TouchableHighlight> 
 										
-								))
+										<TouchableHighlight onPress={this.delete_medication}
+											style ={{
+												height: 40,
+												width:100,
+												borderRadius:10,
+												backgroundColor: "red",
+												marginLeft :40,
+												marginRight:0,
+												marginTop :10
+											}}>
+											<Button color="white" onPress={this.delete_medication} title="delete"
+												accessibilityLabel="Learn more about this button"
+											/> 
+										</TouchableHighlight>
 								
-						}
-						</View>
-
-						
-						
-				// 				<SectionList
-				// 		style={{marginTop: 20}}
-				// 		sections={this.state.medication_list}
-				// 		renderItem={({item, index, section, separators}) => 
-
-				// 								<View style={styles.rowContainer}>
-												
-				// 								<TouchableHighlight
-				// 								underlayColor="white"																					
-				// 								onPress={ () => {
-				// 										this.state.marked_index = index;
-				// 										this.state.marked_time = section.time;
-				// 										this.show_delete_modal();														   
-				// 								}
-																	
-				// 												}>
-				// 								<Text style={styles.item}>{item}</Text>
-				// 								</TouchableHighlight>
+									</View>
+								</View>
+							</Modal>
+								
+							<SectionList style={{marginTop: 20}} sections={this.state.medication_list}
+								renderItem={({item, index, section, separators}) => 
+									<View style={styles.rowContainer}>			
+										<TouchableHighlight underlayColor="white"																					
+											onPress={ () => {
+												this.state.marked_index = index;
+												this.state.marked_time = section.time;
+												this.show_delete_modal();														   
+											}
+										}>
+											<Text style={styles.item}>{item}</Text>
+										</TouchableHighlight>
 
 
-				// 														<TouchableHighlight
-				// 								underlayColor="white"																					
-				// 								onPress={ () => {
-				// 										this.state.marked_index = index;
-				// 										this.state.marked_time = section.time;
-				// 										this.console.log("marked an item!");
-				// 								}
-																	
-				// 												}>
-				// 								<Text style={styles.item}>{"X"}</Text>
-				// 								</TouchableHighlight>
+										<TouchableHighlight underlayColor="white"																					
+											onPress={ () => {
+												this.state.marked_index = index;
+												this.state.marked_time = section.time;
+												console.log("marked an item!");
+											}}>
 
-				// 								</View>
-				// }
-						
-				// 		renderSectionHeader={({section}) => <Text style={styles.boldItem}>{section.time}</Text>}
-				// 		keyExtractor={(item, index) => index}
-				// 				/>
+												<SvgUri width="20" height="20" style={styles.item} source={require("../assets/images/outline-check_circle-24px.svg")}/>
+										</TouchableHighlight>
 
-
-								<ActionButton
-						style={{marginTop: 500}}
-						buttonColor="#03A9F4"
-action						onPress={this.show_modal}
-								/>
-								</View>						
+											</View>
+								}
+								renderSectionHeader={({section}) => <Text style={styles.boldItem}>{section.time}</Text>}
+								keyExtractor={(item, index) => index}/>							
+								
+							<ActionButton style={{marginTop: 500}} buttonColor="#03A9F4" action						
+								onPress={this.show_modal}
+							/>
+						</View>						
 				);
 		}
 }
@@ -320,11 +261,11 @@ const styles = StyleSheet.create({
 				justifyContent: 'space-between'
 		},
 		backgroundImage: {
-        flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover'
-    },
+		flex: 1,
+		width: null,
+		height: null,
+		resizeMode: 'cover'
+	},
 		developmentModeText: {
 				marginBottom: 20,
 				color: 'rgba(0,0,0,0.4)',

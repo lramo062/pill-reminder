@@ -20,6 +20,7 @@
     "react-native-action-button": "^2.8.5",
     "react-native-elements": "^0.19.1",
     "react-native-popup-dialog": "^0.16.2",
+    "react-native-svg-uri": "^1.2.3",
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
