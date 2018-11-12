@@ -15,7 +15,9 @@ import {
 		TouchableHighlight,
 		TextInput,
 		Picker,
-		ListView,		
+		ListView,
+		FlatList,
+		List,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
@@ -27,79 +29,95 @@ import SvgUri from 'react-native-svg-uri';
 export default class HomeScreen extends React.Component {
 
 		state = { modalVisible: false,
-				  deleteModalVisible: false,
-				  medication_list: [{time: "Morning", data: ["Test"]},
-				  { time: "Mid-Morning", data: []},
-					{time: "Afternoon", data: []},
-					{time: "Mid-Afternoon", data:[]},
-					{time: "Night", data:[]}],
-						time: null,
-						name: null,
-				}
+				      deleteModalVisible: false,
+							item_list: [{time: "Morning", name: "Test", marked: false}],
+							time: null,
+							name: null,
+							time_list: ['Morning', 'Mid-Morning', 'Afternoon', 'Mid-Afternoon', 'Night'],
+						}
 		
 		static navigationOptions = {
-				header: null,
+			header: null,
 		};
 
 		show_modal = () => {
-				this.setState({modalVisible: true});
+			this.setState({modalVisible: true});
 		}
 
 		hide_modal = () => {
-				
-				this.setState({modalVisible: false, name: null, time: null});
+			this.setState({modalVisible: false, name: null, time: null});
 		}
 
 		show_delete_modal = () => {
-				this.setState({deleteModalVisible: true});
+			this.setState({deleteModalVisible: true});
 		}
 
 		hide_delete_modal = () => {
-				this.setState({deleteModalVisible: false});
+			this.setState({deleteModalVisible: false});
 		}
 
 		add_medication = () => {				
-				medication_list = this.state.medication_list;		
-				medication_list.forEach((elem, index, arr) => {
-						if(this.state.time == elem.time) {
-							elem.data.push(this.state.name);
-							found = true;
-						}
-				});
-				
-				this.setState({modalVisible: false,
-							   medication_list: medication_list,
-							   name: null,
-							   time: null});				
-				this.render();
+			medication_list = this.state.item_list;
+			medication_list.push({time: this.state.time, name: this.state.name, marked: false});							
+			this.setState({ modalVisible: false,
+											item_list: medication_list,
+											name: null,
+											time: null});
+			this.render();
 		}
 
 		delete_medication = () => {
-				medication_list = this.state.medication_list;
-				medication_list.forEach((elem, index, arr) => {
-						if(this.state.marked_time == elem.time) {
-								elem.data.splice(this.state.marked_index, 1);								
-						}
-				});
-				this.setState({ modalVisible: false,
-								medication_list: medication_list,
-								name: null,
-								time: null,
-								marked_time: null,
-								marked_index: null,
-								deleteModalVisible: false});
+			medication_list = this.state.item_list
+						.filter(item => item.name !== this.state.marked_item && item.time !== this.state.marked_time)		
+			this.setState({ modalVisible: false,
+										  item_list: medication_list,
+											name: null,
+											time: null,
+											marked_time: null,
+											marked_index: null,
+							        deleteModalVisible: false});
 				this.render();
 		}
 		
 		mark_item = () => {
-				console.log("PRESSED");
+			console.log(styles.markedItem)
+			if (!styles.markedItem) {
+				styles.markedItem = {
+					color: 'rgba(0,0,0,0.5)',
+					padding: 10,
+					fontSize: 18,
+					height: 44,
+				}
+			}
+			else {
+				styles.markedItem = null;
+			}
+			this.render();
 		}
 		
 		render() {
 				return (
 						<View style={styles.container}>
 
+						
+							<FlatList
+								data={this.state.time_list}
+						    renderItem={({item}) =>
+									< >											
+										<Text style={styles.boldItem}>{item}</Text>
+										<FlatList
+											data={this.state.item_list}
+											renderItem={({item}) =>
+											  <Text style={styles.item}>{item.name}</Text>						
+											}
+											keyExtractor={(item, index) => item.name}			
+										/>
+									</>
+								}						
+								keyExtractor={(item,index) => item}					
+							/>
 
+						
 							<Modal	animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {
 								Alert.alert('Modal has been closed.');
 							}}>
@@ -211,8 +229,14 @@ export default class HomeScreen extends React.Component {
 									</View>
 								</View>
 							</Modal>
+
+						
+				
 								
-							<SectionList style={{marginTop: 20}} sections={this.state.medication_list}
+							
+					
+																			
+						{/*	<SectionList style={{marginTop: 20}} sections={this.state.medication_list}
 								renderItem={({item, index, section, separators}) => 
 									<View style={styles.rowContainer}>			
 										<TouchableHighlight underlayColor="white"																					
@@ -222,7 +246,7 @@ export default class HomeScreen extends React.Component {
 												this.show_delete_modal();														   
 											}
 										}>
-											<Text style={styles.item}>{item}</Text>
+											<Text style={[styles.item, styles.markedItem]}>{item}</Text>
 										</TouchableHighlight>
 
 
@@ -230,23 +254,22 @@ export default class HomeScreen extends React.Component {
 											onPress={ () => {
 												this.state.marked_index = index;
 												this.state.marked_time = section.time;
-												console.log("marked an item!");
-											}}>
-
-												<SvgUri width="20" height="20" style={styles.item} source={require("../assets/images/outline-check_circle-24px.svg")}/>
+												this.mark_item();
+											}
+										}>	
+												<SvgUri width="20" height="20" source={require("../assets/images/outline-check_circle-24px.svg")}/>
 										</TouchableHighlight>
 
-											</View>
+									</View>
 								}
 								renderSectionHeader={({section}) => <Text style={styles.boldItem}>{section.time}</Text>}
-								keyExtractor={(item, index) => index}/>							
+								keyExtractor={(item, index) => index}/>	*/}
 								
 							<ActionButton style={{marginTop: 500}} buttonColor="#03A9F4" action						
 								onPress={this.show_modal}
 							/>
-						</View>						
-				);
-		}
+						</View>	
+				)}
 }
 const styles = StyleSheet.create({
 		container: {
@@ -362,12 +385,12 @@ const styles = StyleSheet.create({
 				fontSize: 18,
 				height: 44,
 		},
-		markedItem: {
-				color: 'rgba(0,0,0,0.5)',
-				padding: 10,
-				fontSize: 18,
-				height: 44,
-		},
+		// markedItem: {
+		// 		color: 'rgba(0,0,0,0.5)',
+		// 		padding: 10,
+		// 		fontSize: 18,
+		// 		height: 44,
+		// },
 		boldItem: {
 				fontWeight: 'bold',
 				padding: 10,
