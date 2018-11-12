@@ -30,7 +30,8 @@ export default class HomeScreen extends React.Component {
 
 		state = { modalVisible: false,
 				      deleteModalVisible: false,
-							item_list: [{time: "Morning", name: "Test", marked: false}],
+			  item_list: [{time: "Morning", name: "Test", marked: false},
+				      {time: "Mid-Morning", name: "Yoo", marked: false}],
 							time: null,
 							name: null,
 							time_list: ['Morning', 'Mid-Morning', 'Afternoon', 'Mid-Afternoon', 'Night'],
@@ -62,10 +63,10 @@ export default class HomeScreen extends React.Component {
 			this.setState({ modalVisible: false,
 											item_list: medication_list,
 											name: null,
-											time: null});
-			this.render();
+					time: null});
+		    this.render();
 		}
-
+    
 		delete_medication = () => {
 			medication_list = this.state.item_list
 						.filter(item => item.name !== this.state.marked_item && item.time !== this.state.marked_time)		
@@ -100,16 +101,21 @@ export default class HomeScreen extends React.Component {
 						<View style={styles.container}>
 
 						
-							<FlatList
-								data={this.state.time_list}
+					<FlatList
+				    legacyImplementation={true}
+				    data={this.state.time_list}
+				    extraData={this.state.item_list}
 						    renderItem={({item}) =>
 									< >											
 										<Text style={styles.boldItem}>{item}</Text>
-										<FlatList
-											data={this.state.item_list}
+								<FlatList
+								legacyImplementation={true}
+								data={this.state.item_list.filter((med => med.time == item))}
 											renderItem={({item}) =>
+												
 											  <Text style={styles.item}>{item.name}</Text>						
-											}
+												   }
+											extraData={this.state.item_list}
 											keyExtractor={(item, index) => item.name}			
 										/>
 									</>
