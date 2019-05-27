@@ -1,0 +1,9 @@
+div, html {
+    background-color: pink;
+}
+
+.center {
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Open Sans', sans-serif;
+}
