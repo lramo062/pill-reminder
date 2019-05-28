@@ -16,7 +16,7 @@ class PillTable extends React.Component {
                 <tbody>
                     {this.props.pills.map((pill, index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{pill.name}</td>
                                 <td>{pill.dosage + 'mg'}</td>
