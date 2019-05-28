@@ -1,7 +1,6 @@
 import React from 'react';
 import PillTable from './pill-table';
 import PillForm from './pill-form';
-import DataAccess from '../../shared/data-access';
 
 class PillWrapper extends React.Component {
     constructor(props) {
@@ -11,11 +10,10 @@ class PillWrapper extends React.Component {
 
             ]
         };
-        this.db = new DataAccess();
+        
     }
 
     handleSubmit = (pill) => (event) => {
-        this.db.writeMedication(pill);
         let pills = this.state.pills;
         pills[pills.length] = pill;
         this.setState({ pills: pills });
