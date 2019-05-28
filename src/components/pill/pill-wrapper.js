@@ -10,7 +10,6 @@ class PillWrapper extends React.Component {
 
             ]
         };
-        
     }
 
     handleSubmit = (pill) => (event) => {

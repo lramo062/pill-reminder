@@ -37,19 +37,14 @@ class PillForm extends React.Component {
                             placeholder="Dosage" name="dosage" onChange={this.handleChange} />
                         <br></br>
                         <br></br>
-                        <span className="badge badge-dark">Unit: </span>
-                        <select className="form-control-md" name="unit" onChange={this.handleChange}>
-                            <option>---</option>
-                            <option>mg</option>
-                            <option>g</option>
-                        </select>
                         <span className="badge badge-dark">Qty: </span>
-                        <select className="form-control-md" name="qty" onChange={this.handleChange}>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select className="form-control-sm" name="qty" value="-" onChange={this.handleChange}>
+                            <option value="0">-</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                         </select>
                     </div>
 

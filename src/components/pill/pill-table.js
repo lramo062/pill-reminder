@@ -19,7 +19,7 @@ class PillTable extends React.Component {
                             <tr>
                                 <th scope="row">{index + 1}</th>
                                 <td>{pill.name}</td>
-                                <td>{pill.dosage + pill.unit}</td>
+                                <td>{pill.dosage + 'mg'}</td>
                                 <td>{pill.qty}</td>
                                 <td>{pill.date.toLocaleTimeString()}</td>
                             </tr>
